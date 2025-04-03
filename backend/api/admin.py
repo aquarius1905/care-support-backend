@@ -1,5 +1,5 @@
 from django.contrib import admin
-from transport.models import User, TransportSchedule
+from api.models import User, TransportSchedule
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
