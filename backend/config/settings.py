@@ -111,18 +111,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# REST Frameworkの設定
+# REST_FRAMEWORK 設定を修正
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.permissions.IsAuthenticated',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': ['api.auth.JWTAuthentication'],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_FILTER_BACKENDS': ('api.utils.filter_backend.FilterBackend',),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema',
+    # 'DEFAULT_FILTER_BACKENDS': ('api.utils.filter_backend.FilterBackend',),  # この行もエラーになる可能性があるため、一旦コメントアウト
 }
 
 # Internationalization
