@@ -1,7 +1,7 @@
 from django.contrib import admin
-from api.models import User, TransportSchedule
+from api.models import ClientUser, TransportSchedule
 
-@admin.register(User)
+@admin.register(ClientUser)
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'created_at', 'updated_at')
     search_fields = ('name',)

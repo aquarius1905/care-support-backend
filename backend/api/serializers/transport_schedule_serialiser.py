@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import TransportSchedule
+from api.models.transport_schedule import TransportSchedule
 
 class TransportScheduleSerializer(serializers.ModelSerializer):
     user_name = serializers.CharField(source='user.name', read_only=True)

@@ -1,4 +1,5 @@
 
+from api.models.client_user import ClientUser
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -63,7 +64,7 @@ class TransportScheduleViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(schedule)
             return Response(serializer.data)
             
-        except (ValueError, User.DoesNotExist):
+        except (ValueError, ClientUser.DoesNotExist):
             return Response(
                 {"error": "無効なデータ形式または存在しないユーザーです"}, 
                 status=status.HTTP_400_BAD_REQUEST

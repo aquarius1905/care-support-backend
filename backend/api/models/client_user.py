@@ -1,6 +1,6 @@
 from django.db import models
 
-class User(models.Model):
+class ClientUser(models.Model):
     """利用者モデル"""
     name = models.CharField('名前', max_length=100)
     email = models.EmailField('メールアドレス', max_length=255, null=True, blank=True)
