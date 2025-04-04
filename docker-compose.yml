@@ -26,8 +26,7 @@ services:
       - static_files:/app/staticfiles
       - media_files:/app/media
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       - DEBUG=1
       - DATABASE_HOST=db
