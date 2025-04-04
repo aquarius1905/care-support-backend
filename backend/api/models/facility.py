@@ -1,5 +1,4 @@
 from django.db import models
-from api.models.client_user import ClientUser
 
 class Facility(models.Model):
     """デイサービス等の施設情報"""
