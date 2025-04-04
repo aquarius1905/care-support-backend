@@ -8,6 +8,6 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(TransportSchedule)
 class TransportScheduleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'date', 'transport_time', 'created_at', 'updated_at')
-    list_filter = ('date',)
+    list_display = ('id', 'user', 'scheduled_transport_datetime', 'actual_transport_datetime', 'created_at', 'updated_at')
+    list_filter = ('scheduled_transport_datetime',)
     search_fields = ('user__name',)

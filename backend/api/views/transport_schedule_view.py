@@ -9,12 +9,12 @@ import datetime
 
 class TransportScheduleViewSet(viewsets.ModelViewSet):
     """送迎予定のCRUD操作を提供するAPI"""
-    queryset = TransportSchedule.objects.all().order_by('date', 'transport_time')
+    queryset = TransportSchedule.objects.all().order_by('scheduled_transport_datetime')
     serializer_class = TransportScheduleSerializer
     
     def get_queryset(self):
         """クエリパラメータによるフィルタリング"""
-        queryset = TransportSchedule.objects.all().order_by('date', 'transport_time')
+        queryset = TransportSchedule.objects.all().order_by('scheduled_transport_datetime')
         
         # 日付でフィルタリング
         date = self.request.query_params.get('date')
@@ -36,29 +36,27 @@ class TransportScheduleViewSet(viewsets.ModelViewSet):
     def update_transport_time(self, request):
         """送迎時間の更新API"""
         user_id = request.data.get('user_id')
-        date_str = request.data.get('date')
-        time_str = request.data.get('time')
+        datetime_str = request.data.get('datetime')
         
-        if not user_id or not date_str or not time_str:
+        if not user_id or not datetime_str:
             return Response(
-                {"error": "user_id, date, timeは必須です"}, 
+                {"error": "送迎者ID, 送迎時間は必須です"}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
             
         try:
-            date_obj = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
-            time_obj = datetime.datetime.strptime(time_str, '%H:%M').time()
+            date_time_obj = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
             
             # 既存のスケジュールを検索するか、新規作成
             schedule, created = TransportSchedule.objects.get_or_create(
                 user_id=user_id,
-                date=date_obj,
-                defaults={'transport_time': time_obj}
+                actual_transport_datetime=date_time_obj,
+                defaults={'scheduled_transport_datetime': date_time_obj}
             )
             
             if not created:
                 # 既存のスケジュールの場合は時間を更新
-                schedule.transport_time = time_obj
+                schedule.actual_transport_datetime = date_time_obj
                 schedule.save()
             
             serializer = self.get_serializer(schedule)

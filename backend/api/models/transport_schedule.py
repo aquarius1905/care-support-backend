@@ -13,10 +13,10 @@ class TransportSchedule(models.Model):
     deleted_at = models.DateTimeField('削除日時', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.name} - {self.date} {self.transport_time}"
+        return f"{self.user.name} - {self.scheduled_transport_datetime}"
 
     class Meta:
         verbose_name = '送迎スケジュール'
         verbose_name_plural = '送迎スケジュール一覧'
-        unique_together = ['user', 'date']  # 同じユーザーの同じ日付での重複を防ぐ
+        unique_together = ['user', 'scheduled_transport_datetime']  # 同じユーザーの同じ日付での重複を防ぐ
         db_table = 'transport_schedules'
