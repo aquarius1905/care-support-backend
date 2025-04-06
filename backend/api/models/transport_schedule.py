@@ -6,14 +6,14 @@ class TransportSchedule(models.Model):
     """送迎スケジュール"""
     user = models.ForeignKey(ClientUser, on_delete=models.CASCADE, related_name='transport_schedules', verbose_name='利用者')
     scheduled_transport_datetime = models.DateTimeField('送迎予定時間')
-    actual_transport_datetime = models.DateTimeField('変更後の送迎予定時間')
+    actual_transport_datetime = models.DateTimeField('変更後の送迎予定時間', blank=True, null=True)
     status = models.IntegerField('ステータス', default=TransportScheduleType.SCHEDULED, choices=TransportScheduleType.choices)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
     updated_at = models.DateTimeField('更新日時', auto_now=True)
     deleted_at = models.DateTimeField('削除日時', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.name} - {self.scheduled_transport_datetime}"
+        return f"{self.user.last_name} - {self.scheduled_transport_datetime}"
 
     class Meta:
         verbose_name = '送迎スケジュール'

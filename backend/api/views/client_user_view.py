@@ -5,5 +5,5 @@ from api.serializers.client_user_serialiser import ClientUserSerializer
 
 class ClientUserViewSet(viewsets.ModelViewSet):
     """利用者のCRUD操作を提供するAPI"""
-    queryset = ClientUser.objects.all().order_by('name')
+    queryset = ClientUser.objects.all().order_by('facility')
     serializer_class = ClientUserSerializer
