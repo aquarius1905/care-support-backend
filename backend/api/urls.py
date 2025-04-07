@@ -5,7 +5,7 @@ from api.views.transport_schedule_view import TransportScheduleViewSet
 
 router = DefaultRouter()
 router.register(r'users', ClientUserViewSet)
-router.register(r'schedules', TransportScheduleViewSet)
+router.register(r'transport-schedules', TransportScheduleViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
