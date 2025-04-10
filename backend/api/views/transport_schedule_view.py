@@ -8,7 +8,7 @@ from django.utils.dateparse import parse_date
 from django.utils.timezone import make_aware
 from datetime import datetime, time
 from api.models.transport_schedule import TransportSchedule
-from api.serializers.transport_schedule_serialiser import TransportScheduleSerializer
+from api.serializers.transport_schedule_serializer import TransportScheduleSerializer
 from zoneinfo import ZoneInfo
 from django.conf import settings
 

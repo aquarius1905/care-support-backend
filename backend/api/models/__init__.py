@@ -1,3 +1,4 @@
+from api.models.base_user import BaseUser
 from api.models.client_user import ClientUser # ご利用者様
 from api.models.transport_schedule import TransportSchedule # 送迎スケジュール
 from api.models.facility import Facility # デイサービス等の施設
