@@ -6,7 +6,7 @@ class TransportScheduleSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = TransportSchedule
-        fields = ['id', 'user', 'user_name', 'scheduled_transport_datetime']
+        fields = ['id', 'user', 'user_name', 'scheduled_transport_datetime', 'actual_transport_datetime', 'status']
 
     def get_user_name(self, obj):
         return f"{obj.user.last_name} {obj.user.first_name}"
