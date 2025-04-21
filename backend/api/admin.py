@@ -3,6 +3,10 @@ from api.models import BaseUser, ClientUser, TransportSchedule, Facility, Staff
 from django.contrib.auth.admin import UserAdmin
 
 
+admin.site.site_header = "Care Support Admin"
+admin.site.site_title = "Care Support Admin"
+admin.site.index_title = "サイト管理"
+
 @admin.register(BaseUser)
 class StaffAdmin(UserAdmin):
     # 編集画面に表示するフィールドセット
