@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 JST = ZoneInfo(settings.TIME_ZONE)
 
 class TransportScheduleViewSet(viewsets.ModelViewSet):
-    queryset = TransportSchedule.objects.select_related('user').all()
+    queryset = TransportSchedule.objects.filter(deleted_at__isnull=True).select_related('user').all()
     serializer_class = TransportScheduleSerializer
 
     def get_queryset(self):
