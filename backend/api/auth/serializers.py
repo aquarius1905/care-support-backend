@@ -1,13 +1,23 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework import exceptions
+from rest_framework import exceptions, serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
 class StaffTokenObtainPairSerializer(TokenObtainPairSerializer):
-    # 認証エラーメッセージをカスタマイズするためにvalidateメソッドをオーバーライド
+    username_field = 'email'  # ユーザー名フィールドをemailに設定
+    
+    # emailとpasswordフィールドを明示的に定義
+    email = serializers.EmailField(label=_("メールアドレス"))
+    password = serializers.CharField(
+        label=_("パスワード"),
+        style={'input_type': 'password'},
+        trim_whitespace=False,
+        write_only=True
+    )
+    
     def validate(self, attrs):
         authenticate_kwargs = {
-            self.username_field: attrs[self.username_field],
+            'email': attrs['email'],
             'password': attrs['password'],
         }
         
@@ -17,7 +27,7 @@ class StaffTokenObtainPairSerializer(TokenObtainPairSerializer):
         # 認証失敗の場合
         if user is None:
             raise exceptions.AuthenticationFailed(
-                _('ユーザー名またはパスワードが正しくありません。'),
+                _('メールアドレスまたはパスワードが正しくありません。'),
                 'invalid_credentials'
             )
         
@@ -36,6 +46,6 @@ class StaffTokenObtainPairSerializer(TokenObtainPairSerializer):
             )
 
         # 親クラスのvalidateに処理を委譲（tokenの生成など）
-        data = super(TokenObtainPairSerializer, self).validate(attrs)
+        data = super().validate(attrs)
         
         return data

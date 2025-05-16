@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import BaseUser, ClientUser, TransportSchedule, Facility, Staff
+from api.models import BaseUser, ClientUser, TransportSchedule, Facility, Staff, Guardian
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -22,6 +22,20 @@ class StaffAdmin(UserAdmin):
     # 管理画面の一覧にもカスタム項目を表示
     list_display = UserAdmin.list_display + ('user_type',)
 
+# @admin.register(BaseUser)
+# class GuardianAdmin(UserAdmin):
+#     # 編集画面に表示するフィールドセット
+#     fieldsets = UserAdmin.fieldsets + (
+#         ("カスタム項目", {"fields": ("user_type",)}),
+#     )
+
+#     # 新規作成画面に表示するフィールドセット
+#     add_fieldsets = UserAdmin.add_fieldsets + (
+#         ("カスタム項目", {"fields": ("user_type",)}),
+#     )
+
+#     # 管理画面の一覧にもカスタム項目を表示
+#     list_display = UserAdmin.list_display + ('user_type',)
 
 @admin.register(Facility)
 class FacilityAdmin(admin.ModelAdmin):
@@ -43,6 +57,19 @@ class StaffAdmin(admin.ModelAdmin):
             kwargs["queryset"] = BaseUser.objects.filter(
                 is_superuser=False,
                 user_type="staff"
+            )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+@admin.register(Guardian)
+class GuardianAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created_at', 'updated_at')
+    search_fields = ('name',)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "user":
+            kwargs["queryset"] = BaseUser.objects.filter(
+                is_superuser=False,
+                user_type="family"
             )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
